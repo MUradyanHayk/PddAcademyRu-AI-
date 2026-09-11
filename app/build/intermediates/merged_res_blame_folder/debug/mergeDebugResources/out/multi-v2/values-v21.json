@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "ru.pdd.academy.app-mergeDebugResources-47:/values-v21/values-v21.xml",
+            "outputFile": "ru.pdd.academy.app-mergeDebugResources-60:/values-v21/values-v21.xml",
             "map": [
                 {
-                    "source": "/Users/muradyan/.gradle/caches/9.3.0/transforms/fc89d7d3090755936bed4a6e731c81d2/transformed/core-1.13.1/res/values-v21/values-v21.xml",
+                    "source": "/Users/muradyan/.gradle/caches/8.13/transforms/c802f49f279b0736b06738037fbb084b/transformed/core-1.13.1/res/values-v21/values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",

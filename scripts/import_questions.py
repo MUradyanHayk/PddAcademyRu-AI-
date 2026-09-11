@@ -1,11 +1,13 @@
 """Normalize a local checkout of etspring/pdd_russia. No network at app runtime."""
-import argparse, hashlib, json, pathlib, re, shutil, io
+import argparse, hashlib, json, pathlib, re, io
+from datetime import date
 import cairosvg
 from PIL import Image
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('source', type=pathlib.Path)
+    parser.add_argument('--source-commit', help='Exact source revision, if known')
     args = parser.parse_args()
     dest = pathlib.Path(__file__).resolve().parents[1] / 'app/src/main/assets'
     (dest/'images').mkdir(parents=True, exist_ok=True)
@@ -46,7 +48,7 @@ def main():
             with Image.open(image_source) as im: im.convert('RGBA').save(dest/image,'WEBP',lossless=True)
             signs.append(dict(number=number,title=s['title'],category=category,description=s.get('description') or '',image=image))
     (dest/'signs.json').write_text(json.dumps(signs,ensure_ascii=False,indent=2))
-    manifest=dict(source='https://github.com/etspring/pdd_russia',imported='2026-09-07',questions=len(questions),signs=len(signs),
+    manifest=dict(source='https://github.com/etspring/pdd_russia',imported=date.today().isoformat(),sourceCommit=args.source_commit,questions=len(questions),signs=len(signs),
         sha256=hashlib.sha256((dest/'questions.json').read_bytes()).hexdigest(),verifiedCurrent=False)
     (dest/'content_manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
     print(json.dumps(manifest,ensure_ascii=False))

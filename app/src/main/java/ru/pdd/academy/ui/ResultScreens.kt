@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ru.pdd.academy.domain.*
+import ru.pdd.academy.ads.AdaptiveBanner
 
 @Composable
 fun ResultScreen(s: Session, questions: Map<String, Question>, onReview: () -> Unit,
@@ -25,7 +26,8 @@ fun ResultScreen(s: Session, questions: Map<String, Question>, onReview: () -> U
     val correct = s.answers.count { (id, choice) -> questions[id]?.correct == choice }
     val errors = s.answers.filter { (id, choice) -> questions[id]?.correct != choice }.keys.toList()
     val successful = s.passed == true || (s.mode == Mode.LEARN && errors.isEmpty() && s.answers.size == s.questionIds.size)
-    LazyColumn(Modifier.fillMaxSize().safeDrawingPadding(), contentPadding = PaddingValues(24.dp), verticalArrangement = Arrangement.spacedBy(22.dp)) {
+    Column(Modifier.fillMaxSize().safeDrawingPadding()) {
+    LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = PaddingValues(24.dp), verticalArrangement = Arrangement.spacedBy(22.dp)) {
         item { Spacer(Modifier.height(22.dp)) }
         item { Icon(if (successful) Icons.Rounded.EmojiEvents else Icons.Rounded.Insights, null, Modifier.size(72.dp), tint = MaterialTheme.colorScheme.primary) }
         item { PageTitle(if (s.mode == Mode.EXAM) { if (s.passed == true) "Экзамен сдан!" else "Попробуем ещё" } else "Шаг вперёд!", s.reason) }
@@ -38,6 +40,8 @@ fun ResultScreen(s: Session, questions: Map<String, Question>, onReview: () -> U
         item { PrimaryButton("Разобрать ответы", onReview) }
         if (errors.isNotEmpty()) item { OutlinedButton(onClick = { onRetryErrors(errors) }, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text("Повторить ошибки") } }
         item { TextButton(onClick = onClose, modifier = Modifier.fillMaxWidth()) { Text("На главную") } }
+    }
+    AdaptiveBanner(Modifier.padding(horizontal = 24.dp))
     }
 }
 

@@ -22,6 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.pdd.academy.domain.*
+import ru.pdd.academy.ads.AdPrivacyControls
+import ru.pdd.academy.R
+import ru.pdd.academy.BuildConfig
+import androidx.compose.ui.res.stringResource
 import java.time.LocalDate
 import java.time.Instant
 import java.time.ZoneId
@@ -49,28 +53,28 @@ fun Onboarding(onDone: (Int) -> Unit) {
 
 @Composable
 fun HomeScreen(state: AppState, questions: List<Question>, start: (List<String>, String) -> Unit,
-               resume: () -> Unit, learn: () -> Unit, exam: () -> Unit) {
+               resume: () -> Unit, learn: () -> Unit, exam: () -> Unit, settings: () -> Unit = {}) {
     val today = state.dailyAnswers[LocalDate.now().toString()] ?: 0
     val mastered = state.progress.values.count { it.mastered }
     val practice = remember(state.progress, state.dailyGoal, today) { StudyEngine(questions).practiceIds(state, System.currentTimeMillis(), if (today < state.dailyGoal) state.dailyGoal - today else state.dailyGoal) }
     LazyColumn(contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         item { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text("ПДД АКАДЕМИЯ", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-            SuggestionChip(onClick = {}, label = { Text("Россия · A/B") })
+            IconButton(onClick = settings) { Icon(Icons.Rounded.Settings, stringResource(R.string.settings_title)) }
         } }
         item { PageTitle("Каждый день\nближе к цели", "Небольшое занятие — уверенный шаг вперёд.") }
         item {
-            Column(Modifier.fillMaxWidth().background(Brush.linearGradient(listOf(Color(0xFF164ECB), Color(0xFF2774ED))), RoundedCornerShape(28.dp)).padding(24.dp),
+            Column(Modifier.fillMaxWidth().background(Brush.linearGradient(listOf(MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.surfaceContainerHigh)), RoundedCornerShape(28.dp)).padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("ПЛАН НА СЕГОДНЯ", color = Color.White.copy(alpha = .85f), style = MaterialTheme.typography.labelLarge)
-                    Icon(Icons.Rounded.WbSunny, null, tint = Color.White)
+                    Text("ПЛАН НА СЕГОДНЯ", color = MaterialTheme.colorScheme.onPrimaryContainer, style = MaterialTheme.typography.labelLarge)
+                    Icon(Icons.Rounded.WbSunny, null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
                 }
-                Text(if (today >= state.dailyGoal) "Цель достигнута!" else "${(state.dailyGoal - today).coerceAtLeast(0)} вопросов\nдо вашей цели", color = Color.White, style = MaterialTheme.typography.headlineMedium)
+                Text(if (today >= state.dailyGoal) "Цель достигнута!" else "${(state.dailyGoal - today).coerceAtLeast(0)} вопросов\nдо вашей цели", color = MaterialTheme.colorScheme.onPrimaryContainer, style = MaterialTheme.typography.headlineMedium)
                 LinearProgressIndicator(progress = { (today.toFloat()/state.dailyGoal).coerceIn(0f, 1f) },
-                    modifier = Modifier.fillMaxWidth(), color = Color.White, trackColor = Color.White.copy(alpha = .24f))
-                Text("Сегодня: $today / ${state.dailyGoal}", color = Color.White.copy(alpha = .9f))
-                Button(onClick = { start(practice, "План на день") }, colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0xFF164ECB)),
+                    modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.onPrimaryContainer, trackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = .15f))
+                Text("Сегодня: $today / ${state.dailyGoal}", color = MaterialTheme.colorScheme.onPrimaryContainer)
+                Button(onClick = { start(practice, "План на день") }, colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary),
                     modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(if (today >= state.dailyGoal) "Ещё немного практики" else "Начать занятие") }
             }
         }
@@ -145,8 +149,8 @@ fun ProgressScreen(state: AppState, questions: List<Question>, theme: (String) -
         text = { Text("Будут удалены результаты, избранное и текущее занятие. Это действие нельзя отменить.") },
         confirmButton = { TextButton(onClick = { reset(); confirmReset = false }) { Text("Сбросить", color = MaterialTheme.colorScheme.error) } },
         dismissButton = { TextButton(onClick = { confirmReset = false }) { Text("Отмена") } })
-    if (about) AlertDialog(onDismissRequest = { about = false }, title = { Text("ПДД Академия · 0.1.0") },
-        text = { Text("Учебное приложение для категории A/B.\n\nИсточник вопросов и знаков: github.com/etspring/pdd_russia. Загружено 07.09.2026. Актуальность всех материалов не подтверждена. Приложение не связано с Госавтоинспекцией.\n\nПрогресс хранится на устройстве. Регистрации и рекламы нет. Удаление приложения удаляет прогресс.") },
+    if (about) AlertDialog(onDismissRequest = { about = false }, title = { Text("ПДД Академия · ${BuildConfig.VERSION_NAME}") },
+        text = { Text("Учебное приложение для категории A/B.\n\nИсточник вопросов и знаков: github.com/etspring/pdd_russia. Загружено 07.09.2026. Актуальность всех материалов не подтверждена. Приложение не связано с Госавтоинспекцией.\n\nПрогресс хранится на устройстве. Регистрации нет. На главной и после занятия может показываться реклама Google. Параметры конфиденциальности доступны в настройках, если их запрашивает Google. Удаление приложения удаляет прогресс.") },
         confirmButton = { TextButton(onClick = { about = false }) { Text("Понятно") } })
     LazyColumn(contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         item { PageTitle("Ваш прогресс", "Замечайте результат каждого занятия.") }
@@ -187,13 +191,8 @@ fun ProgressScreen(state: AppState, questions: List<Question>, theme: (String) -
             ActionCard(session.title, "$date · ${session.answers.size} ответов", if (session.passed == true) Icons.Rounded.CheckCircle else Icons.Rounded.History, { review(session) })
         }
         item { SectionTitle("Настройки") }
-        item { Text("Оформление", style = MaterialTheme.typography.titleMedium)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("system" to "Авто", "light" to "Светлое", "dark" to "Тёмное").forEach { (key, label) ->
-                    FilterChip(selected = state.theme == key, onClick = { theme(key) }, label = { Text(label) })
-                }
-            }
-        }
+        item { AppearanceSettings(state.theme, theme) }
+        item { AdPrivacyControls() }
         item { Text("Вопросов в день", style = MaterialTheme.typography.titleMedium)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) { listOf(10,20,40).forEach { n ->
                 FilterChip(selected = state.dailyGoal == n, onClick = { goal(n) }, label = { Text("$n") })

@@ -70,6 +70,29 @@ class ScreenTest {
             capture("question-answered")
         } finally { store.clear() }
     }
+    @Test fun appearanceShortcutChangesThemeAndPersistsEveryMode() {
+        val store = ViewModelStore()
+        lateinit var vm: StudyViewModel
+        compose.runOnIdle { vm = StudyViewModel(ApplicationProvider.getApplicationContext<Application>()); store.put("theme", vm) }
+        try {
+            compose.setContent { AcademyApp(vm) }
+            awaitState { vm.state.value != null }
+            compose.runOnIdle { vm.onboarding(20) }
+            awaitState { vm.state.value?.onboardingDone == true }
+            compose.onNodeWithContentDescription("Настройки").performClick()
+            listOf("dark" to "Тёмная тема", "light" to "Светлая тема", "system" to "Как на устройстве").forEach { (key, label) ->
+                compose.onNodeWithText(label).performScrollTo().performClick()
+                awaitState { vm.state.value?.theme == key }
+                val disk = kotlinx.coroutines.runBlocking {
+                    ru.pdd.academy.data.StudyRepository(ApplicationProvider.getApplicationContext()).loadState()
+                }
+                assertEquals(key, disk.theme)
+                if (key == "dark") capture("appearance-dark")
+            }
+            compose.onNodeWithText("Готово").performClick()
+            compose.onNodeWithText("Начать занятие").assertIsDisplayed()
+        } finally { store.clear() }
+    }
     @Test fun homeRendersAndStartsDailyPlan() {
         val bank = questions(); var selected = emptyList<String>()
         compose.setContent { AcademyTheme("light") { Surface(Modifier.fillMaxSize()) {

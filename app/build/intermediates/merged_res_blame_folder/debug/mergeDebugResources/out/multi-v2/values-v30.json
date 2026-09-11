@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "ru.pdd.academy.app-mergeDebugResources-47:/values-v30/values-v30.xml",
+            "outputFile": "ru.pdd.academy.app-mergeDebugResources-60:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "/Users/muradyan/.gradle/caches/9.3.0/transforms/3d90ddd73f6a91394435c56e04114bce/transformed/material3-release/res/values-v30/values-v30.xml",
+                    "source": "/Users/muradyan/.gradle/caches/8.13/transforms/21ee74ac3528d5aa2e4e3a0628822bdf/transformed/material3-release/res/values-v30/values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

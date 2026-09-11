@@ -1,7 +1,18 @@
 R_DEF: Internal format may change without notice
 local
 drawable ic_launcher
+string ads_consent_error
+string ads_label
+string ads_privacy_choices
+string ads_retry
 string app_name
+string appearance_description
+string appearance_title
+string done
+string settings_title
+string theme_dark
+string theme_light
+string theme_system
 style Theme.PddAcademy
 xml backup_rules
 xml data_extraction_rules
