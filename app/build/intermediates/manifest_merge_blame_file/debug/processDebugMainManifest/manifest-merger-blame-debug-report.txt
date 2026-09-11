@@ -20,45 +20,45 @@
 15-->[androidx.core:core:1.13.1] /Users/muradyan/.gradle/caches/9.3.0/transforms/fc89d7d3090755936bed4a6e731c81d2/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
 16
 17    <application
-17-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:2:5-13:19
+17-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:2:5-13:19
 18        android:allowBackup="false"
-18-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:2:18-45
+18-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:2:18-45
 19        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 19-->[androidx.core:core:1.13.1] /Users/muradyan/.gradle/caches/9.3.0/transforms/fc89d7d3090755936bed4a6e731c81d2/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 20        android:dataExtractionRules="@xml/data_extraction_rules"
-20-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:3:9-65
+20-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:3:9-65
 21        android:debuggable="true"
 22        android:extractNativeLibs="false"
 23        android:fullBackupContent="@xml/backup_rules"
-23-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:2:46-91
+23-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:2:46-91
 24        android:icon="@drawable/ic_launcher"
-24-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:4:9-45
+24-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:4:9-45
 25        android:label="@string/app_name"
-25-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:3:66-98
+25-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:3:66-98
 26        android:roundIcon="@drawable/ic_launcher"
-26-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:4:46-87
+26-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:4:46-87
 27        android:supportsRtl="true"
-27-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:5:9-35
+27-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:5:9-35
 28        android:testOnly="true"
 29        android:theme="@style/Theme.PddAcademy" >
-29-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:5:36-75
+29-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:5:36-75
 30        <activity
-30-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:6:9-12:20
+30-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:6:9-12:20
 31            android:name="ru.pdd.academy.MainActivity"
-31-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:6:19-47
+31-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:6:19-47
 32            android:exported="true"
-32-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:6:48-71
+32-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:6:48-71
 33            android:windowSoftInputMode="adjustResize" >
-33-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:7:13-55
+33-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:7:13-55
 34            <intent-filter>
-34-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:8:13-11:29
+34-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:8:13-11:29
 35                <action android:name="android.intent.action.MAIN" />
-35-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:9:17-69
-35-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:9:25-66
+35-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:9:17-69
+35-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:9:25-66
 36
 37                <category android:name="android.intent.category.LAUNCHER" />
-37-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:10:17-77
-37-->/Users/muradyan/Downloads/PddAcademy/app/src/main/AndroidManifest.xml:10:27-74
+37-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:10:17-77
+37-->/Users/muradyan/Downloads/PddAcademy/PddAcademyRu-AI-/app/src/main/AndroidManifest.xml:10:27-74
 38            </intent-filter>
 39        </activity>
 40
