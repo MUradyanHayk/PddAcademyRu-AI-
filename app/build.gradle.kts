@@ -22,9 +22,17 @@ android {
         applicationId = "ru.pdd.academy"
         minSdk = 26
         targetSdk = 35
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = 3
+        versionName = "0.3.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        create("release_config") {
+            keyAlias = "pddacademy"
+            keyPassword = "POLkjm123"
+            storeFile = file("../accademy-keystore.keystore")
+            storePassword = "POLkjm123"
+        }
     }
     buildTypes {
         debug {
