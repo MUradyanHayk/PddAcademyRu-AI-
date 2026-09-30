@@ -2,7 +2,7 @@ package ru.pdd.academy
 
 import android.app.Application
 import android.os.SystemClock
-import android.util.Log
+import ru.pdd.academy.util.Log
 import android.provider.Settings
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope

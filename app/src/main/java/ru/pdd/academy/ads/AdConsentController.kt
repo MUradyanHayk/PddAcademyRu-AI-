@@ -14,11 +14,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
+import ru.pdd.academy.AppConstants
 
 /** Activity-scoped consent state. Never retains an Activity in a process singleton. */
 class AdConsentController(context: Context) {
     private val app = context.applicationContext
-    private val information = UserMessagingPlatform.getConsentInformation(app)
+    private val information by lazy { UserMessagingPlatform.getConsentInformation(app) }
     private val mutableState = MutableStateFlow(ConsentState())
     val state = mutableState.asStateFlow()
     val initialized = sdkInitialized.asStateFlow()
@@ -27,11 +28,11 @@ class AdConsentController(context: Context) {
     private var refreshing = false
 
     fun refresh(activity: Activity) {
-        if (disposed || refreshing || state.value.busy || !activity.usable()) return
+        if (!AppConstants.adsEnabled || disposed || refreshing || state.value.busy || !activity.usable()) return
         refreshing = true
         mutableState.value = state.value.copy(error = false)
         information.requestConsentInfoUpdate(activity, ConsentRequestParameters.Builder().build(), {
-            if (disposed || !activity.usable()) return@requestConsentInfoUpdate
+            if (!AppConstants.adsEnabled || disposed || !activity.usable()) return@requestConsentInfoUpdate
             refreshing = false
             publish()
             if (information.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
@@ -52,7 +53,7 @@ class AdConsentController(context: Context) {
 
     /** Called only from the dashboard, never from an active question or exam. */
     fun presentPendingForm(activity: Activity) {
-        if (disposed || state.value.busy || !activity.usable()) return
+        if (!AppConstants.adsEnabled || disposed || state.value.busy || !activity.usable()) return
         val form = pendingForm ?: return
         pendingForm = null
         mutableState.value = state.value.copy(busy = true, formReady = false, canRequestAds = false)
@@ -60,7 +61,7 @@ class AdConsentController(context: Context) {
     }
 
     fun showPrivacyOptions(activity: Activity) {
-        if (disposed || state.value.busy || !activity.usable()) return
+        if (!AppConstants.adsEnabled || disposed || state.value.busy || !activity.usable()) return
         if (!state.value.privacyRequired) { refresh(activity); return }
         pendingForm = null
         // Unmount existing banners before changing consent; a subsequent banner uses a fresh request.
@@ -71,8 +72,10 @@ class AdConsentController(context: Context) {
     }
 
     private fun publish(error: Boolean = false) {
+        if (!AppConstants.adsEnabled) return
         val allowed = information.canRequestAds()
         mutableState.value = ConsentState(
+            requestGeneration = state.value.requestGeneration + 1,
             canRequestAds = allowed,
             privacyRequired = information.privacyOptionsRequirementStatus ==
                 ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED,
@@ -101,6 +104,7 @@ class AdConsentController(context: Context) {
 }
 
 data class ConsentState(
+    val requestGeneration: Int = 0,
     val canRequestAds: Boolean = false,
     val privacyRequired: Boolean = false,
     val busy: Boolean = false,

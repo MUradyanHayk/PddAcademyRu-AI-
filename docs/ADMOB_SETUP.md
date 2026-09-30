@@ -49,3 +49,15 @@ Google's published policy pauses AdMob campaigns and AdMob Network serving to us
 - Regional policy: https://support.google.com/publisherpolicies/answer/15766875?hl=en
 
 Sources checked 2026-09-11. The current setup guide labels the `com.google.android.gms.ads` API as Legacy and offers a Next-Gen migration. This revision uses the documented stable API; a migration should be a separately tested change.
+
+## Master switch for all build variants
+
+Edit `app/src/main/java/ru/pdd/academy/AppConstants.kt`:
+
+```kotlin
+const val HAS_ADDS = false
+```
+
+Rebuild and reinstall the app after changing this compile-time constant. `false` disables banner loading/display, application-triggered Mobile Ads initialization, consent requests/forms, and ad privacy/retry controls. No banner space is reserved. The SDK dependency and manifest configuration remain in the project.
+
+The default is `true`, preserving existing behaviour: debug uses test ads; release additionally requires the existing `ADS_ENABLED=true` Gradle property and valid AdMob IDs. Setting `HAS_ADDS=true` does not bypass that release configuration.

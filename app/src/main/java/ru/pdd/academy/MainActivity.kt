@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        if (BuildConfig.ADS_ENABLED) ads = AdConsentController(applicationContext).also { it.refresh(this) }
+        if (AppConstants.adsEnabled) ads = AdConsentController(applicationContext).also { it.refresh(this) }
         setContent { val vm: StudyViewModel = viewModel(); AcademyApp(vm, ads) }
     }
 

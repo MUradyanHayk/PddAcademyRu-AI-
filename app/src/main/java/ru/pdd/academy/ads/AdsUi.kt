@@ -20,6 +20,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.ads.*
+import ru.pdd.academy.AppConstants
 import ru.pdd.academy.BuildConfig
 import ru.pdd.academy.R
 
@@ -34,6 +35,7 @@ internal fun Context.activity(): Activity? = when (this) {
 /** Mount only on the dashboard. Form loading can complete during a quiz; presentation waits. */
 @Composable
 fun DashboardConsentEffect() {
+    if (!AppConstants.adsEnabled) return
     val controller = LocalAdConsent.current ?: return
     val state by controller.state.collectAsStateWithLifecycle()
     val activity = LocalContext.current.activity() ?: return
@@ -48,6 +50,7 @@ fun DashboardConsentEffect() {
 
 @Composable
 fun AdPrivacyControls() {
+    if (!AppConstants.adsEnabled) return
     val controller = LocalAdConsent.current ?: return
     val state by controller.state.collectAsStateWithLifecycle()
     val activity = LocalContext.current.activity() ?: return
@@ -67,14 +70,15 @@ fun AdPrivacyControls() {
 /** One instance per mounted placement. Failed requests collapse without blocking learning. */
 @Composable
 fun AdaptiveBanner(modifier: Modifier = Modifier) {
+    if (!AppConstants.adsEnabled) return
     val controller = LocalAdConsent.current ?: return
     val consent by controller.state.collectAsStateWithLifecycle()
     val initialized by controller.initialized.collectAsStateWithLifecycle()
-    if (!consent.canRequestAds || consent.busy || !initialized || !BuildConfig.ADS_ENABLED) return
+    if (!consent.canRequestAds || consent.busy || !initialized) return
     BoxWithConstraints(modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         val width = maxWidth.value.toInt().coerceAtMost(728)
         val orientation = LocalConfiguration.current.orientation
-        if (width >= 120) key(width, orientation) { BannerView(width) }
+        if (width >= 120) key(width, orientation, consent.requestGeneration) { BannerView(width) }
     }
 }
 
